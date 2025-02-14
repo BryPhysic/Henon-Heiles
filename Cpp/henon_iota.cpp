@@ -86,7 +86,7 @@ int main() {
 
     // output file
     std::ostringstream fname;
-    fname << "HI_" << alpha << "_" << beta << "_" << T_MAX << "_" << DT << "_" << E << ".dat";
+    fname << "Cpp/HI_" << alpha << "_" << beta << "_" << T_MAX << "_" << DT << "_" << E << ".dat";
     std::ofstream fout(fname.str().c_str());
     if (!fout.is_open()) {
         std::cerr << "No se pudo abrir " << fname.str() << std::endl;
@@ -111,7 +111,7 @@ int main() {
             std::cout << "y0=" << y0 << " => No hay px(0) real => Omitiendo\n";
             continue; 
         }
-
+21
         // Condiciones iniciales
         double x  = 0.0;
         double y  = y0;

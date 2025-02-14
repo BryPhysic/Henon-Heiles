@@ -5,10 +5,10 @@
 #include <iomanip>
 #include <sstream>
 
-// Parámetros globales
-double E;       // Energía total
-double T_MAX;   // Tiempo total de integración
-double DT;      // Paso de integración
+
+double E;       // 
+double T_MAX;   // 
+double DT;      // 
 
 
 double potential(double x, double y) {
@@ -17,7 +17,7 @@ double potential(double x, double y) {
 }
 
 // ----------------------------------------------------------------------
-// Gradiente del potencial: dV/dx, dV/dy
+// 
 // ----------------------------------------------------------------------
 void gradV(double x, double y, double &dVdx, double &dVdy) {
     dVdx = x + 2.0 * x * y;
@@ -30,7 +30,7 @@ double hamiltonian(double x, double y, double px, double py) {
 }
 
 // ----------------------------------------------------------------------
-// Integrador Leapfrog (Stormer-Verlet)
+// 
 // ----------------------------------------------------------------------
 void leapfrog_step(double &x, double &y, double &px, double &py, double dt) {
     double dVdx, dVdy;
@@ -53,7 +53,7 @@ void leapfrog_step(double &x, double &y, double &px, double &py, double dt) {
 }
 
 // ----------------------------------------------------------------------
-// Calcula px(0) para energía E y posición inicial (x=0, y=y0, py=0):
+// 
 // E = 0.5 px^2 + V(0,y0)  =>  px^2 = 2[E - V(0,y0)]
 // ----------------------------------------------------------------------
 double initial_px(double y0) {
@@ -66,7 +66,7 @@ double initial_px(double y0) {
 }
 
 // ======================================================================
-// Programa Principal
+// 
 // ======================================================================
 int main() {
     // Lectura de parámetros
@@ -77,7 +77,7 @@ int main() {
     std::cout << "DT (paso)     : ";
     std::cin >> DT;
 
-    // Crear archivo de salida
+    // 
     std::ostringstream fname;
     fname << "HHE_" << T_MAX << "_" << DT << "_" << E << ".dat";
     std::ofstream fout(fname.str().c_str());
@@ -87,24 +87,24 @@ int main() {
     }
     fout << std::fixed << std::setprecision(6);
 
-    // Rango de valores iniciales de y0
+    // 
     std::vector<double> y_iniciales;
     for (double y0 = -0.5; y0 <= 0.5; y0 += 0.01) {
         y_iniciales.push_back(y0);
     }
 
-    // Número de pasos de integración
+    //
     long long Nsteps = static_cast<long long>(T_MAX / DT);
 
-    // Integrar para cada condición inicial en y0
+    // 
     int y0_index = 0;
     for (double y0 : y_iniciales) {
         double px0 = initial_px(y0);
         if (px0 < 0.0) {
-            continue; // No hay solución real
+            continue; // 
         }
 
-        // Condiciones iniciales
+        
         double x  = 0.0;
         double y  = y0;
         double px = px0;
@@ -112,14 +112,14 @@ int main() {
         std::cout << "Integrando con y0=" << y0 
                   << ", px0=" << px0 
                   << ", E=" << E << "\n";
-        // Integración
+       
         for (long long step = 0; step < Nsteps; step++) {
             double x_antes  = x;
             double y_antes  = y;
             double px_antes = px;
             double py_antes = py;
 
-            // Integrar con Leapfrog
+            
             leapfrog_step(x, y, px, py, DT);
 
             double x_despues  = x;
@@ -127,7 +127,7 @@ int main() {
             double px_despues = px;
             double py_despues = py;
 
-            // Detección de cruce en x=0 con px>0
+ 
             if (x_antes < 0.0 && x_despues > 0.0 && px_despues > 0.0) {
                 double alpha_t = -x_antes / (x_despues - x_antes);
                 double y_int   = y_antes  + alpha_t * (y_despues - y_antes);
